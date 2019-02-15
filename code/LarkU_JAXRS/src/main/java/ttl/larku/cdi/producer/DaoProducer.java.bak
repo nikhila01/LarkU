@@ -1,0 +1,29 @@
+package ttl.larku.cdi.producer;
+
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+import ttl.larku.cdi.qualifier.DBQualifier;
+import ttl.larku.cdi.qualifier.DBType;
+import ttl.larku.dao.BaseDAO;
+import ttl.larku.dao.inmemory.InMemoryStudentDAO;
+import ttl.larku.domain.Student;
+
+/**
+ * Produces DAO's.  To change the DAO associated with DBType.STUDENT,
+ *	just replace it with another @Produces method that returns something else.
+ * Neither the Injection Point nor the Injected class need to be changed.
+ * DI at it's best!! 
+ * @author whynot
+ *
+ */
+public class DaoProducer {
+	
+	@Produces
+	@DBQualifier(DBType.STUDENT)
+	public BaseDAO<Student> getStudentDao(InMemoryStudentDAO dao) {
+		return dao;
+	}
+	
+
+}
