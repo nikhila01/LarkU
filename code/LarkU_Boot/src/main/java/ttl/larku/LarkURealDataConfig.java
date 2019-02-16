@@ -32,12 +32,4 @@ public class LarkURealDataConfig {
 	public BaseDAO<ScheduledClass> classDAO() {
 		return new JPAClassDAO();
 	}
-
-	@Bean
-	public LocalEntityManagerFactoryBean entityManagerFactory() {
-		LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
-		factoryBean.setPersistenceUnitName("LarkUPU_SE");
-		return factoryBean;
-	}
-
 }
