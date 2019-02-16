@@ -15,7 +15,7 @@ import ttl.larku.domain.Course;
 @Transactional
 public class JPACourseDAO implements BaseDAO<Course> {
 
-	@PersistenceContext(unitName="LarkUPU_SE")
+	@PersistenceContext //(unitName="LarkUPU_SE")
 	private EntityManager entityManager;
 	
 	public EntityManager getEntityManager() {

@@ -7,9 +7,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@EnableWebMvc
-@Import({LarkUTestWebConfig.class, LarkUWithDBWebConfig.class})
+@Import({LarkUDevelopmentConfig.class, LarkUProductionConfig.class})
 @Profile({"development", "production"})
-public class LarkUWebConfigProfile extends WebMvcConfigurerAdapter {
+public class LarkUMasterConfig { 
 	
 }

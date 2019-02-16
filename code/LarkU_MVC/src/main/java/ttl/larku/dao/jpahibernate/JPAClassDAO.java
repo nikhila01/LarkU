@@ -15,7 +15,7 @@ import ttl.larku.domain.ScheduledClass;
 @Transactional
 public class JPAClassDAO implements BaseDAO<ScheduledClass> {
 
-	@PersistenceContext(unitName="LarkUPU_SE")
+	@PersistenceContext //(unitName="LarkUPU_SE")
 	private EntityManager entityManager;
 	private static int nextId = 0;
 	

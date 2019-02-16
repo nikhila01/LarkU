@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -9,15 +10,15 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.version>4.3.0.RELEASE</spring.version>
-		<spring.data.version>1.10.1.RELEASE</spring.data.version>
-		<spring.jdbc.version>5.0.2.RELEASE</spring.jdbc.version>
+		<spring.version>4.3.6.RELEASE</spring.version>
+		<spring.data.version>1.11.0.RELEASE</spring.data.version>
+		<spring.jdbc.version>4.3.6.RELEASE</spring.jdbc.version>
 		<jackson.version>2.9.8</jackson.version>
 		<jsonpath.version>2.2.0</jsonpath.version>
 		<servlet.version>3.1.0</servlet.version>
 		<hibernate.version>5.1.4.Final</hibernate.version>
 		<hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
-		<derby.version>10.12.1.1</derby.version>
+		<derby.version>10.14.2.0</derby.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<aspectj.version>1.7.3</aspectj.version>
@@ -50,14 +51,14 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${spring.data.version}</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-jdbc</artifactId>
-    <version>${spring.jdbc.version}</version>
-</dependency>
-		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.jdbc.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -194,6 +195,13 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>5.2.4</version>
 		</dependency>
 	</dependencies>
 	<build>

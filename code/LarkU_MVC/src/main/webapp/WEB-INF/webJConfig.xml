@@ -14,10 +14,18 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<!-- Use this one for No DataBase -->
-		<param-value>ttl.larku.jconfig.LarkUWebConfig</param-value> 
+		<!-- <param-value>ttl.larku.jconfig.LarkUWebConfig</param-value> -->
 		
 		<!-- Use this one when using a Database.  DB *must* be running before this app is deployed -->
-		<!-- <param-value>ttl.larku.jconfig.LarkUWithDBWebConfig</param-value> -->
+		<!--  <param-value>ttl.larku.jconfig.LarkUWithDBWebConfig</param-value> -->
+
+		<param-value>ttl.larku.jconfig.LarkUWebConfigProfile</param-value>
+	</context-param>
+
+	<!-- For Profiles, uncomment this -->
+	<context-param>
+	    <param-name>spring.profiles.active</param-name>
+	    <param-value>development</param-value>
 	</context-param>
 
 	<listener>

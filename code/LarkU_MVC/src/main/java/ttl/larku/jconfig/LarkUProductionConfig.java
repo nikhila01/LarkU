@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Course;
@@ -14,18 +12,17 @@ import ttl.larku.domain.ScheduledClass;
 import ttl.larku.domain.Student;
 
 @Configuration
-@EnableWebMvc
 @Import({LarkUConfig.class, LarkUDBConfig.class})
 @Profile("production")
-public class LarkUWithDBWebConfig extends WebMvcConfigurerAdapter {
+public class LarkUProductionConfig { 
 	
 	@Autowired
 	private LarkUDBConfig testData;
 	
 	@Bean
 	public BaseDAO<Student> studentDAO() {
-		return testData.hibernateStudentDAO();
-		//return testData.jpaStudentDAO();
+		//return testData.hibernateStudentDAO();
+		return testData.jpaStudentDAO();
 		//return testData.jdbcTemplateStudentDAO();
 	}
 	

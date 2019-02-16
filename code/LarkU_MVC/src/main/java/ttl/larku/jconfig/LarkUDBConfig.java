@@ -4,17 +4,18 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.derby.jdbc.EmbeddedDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -36,14 +37,23 @@ import ttl.larku.domain.Course;
 import ttl.larku.domain.ScheduledClass;
 import ttl.larku.domain.Student;
 
+/**
+ * Database Config
+ * 
+ * @author whynot
+ *
+ */
 @Configuration
 @EnableTransactionManagement
-@Profile("production")
+@Profile({"development", "production"})
 public class LarkUDBConfig implements TransactionManagementConfigurer {
 
 	@Autowired
+	private Environment env;
+	
+	@Autowired
 	private ApplicationContext appContext;
-
+	
 	// In Memory DAOs
 	@Bean(name = { "inMemoryClassDAO" })
 	public InMemoryClassDAO inMemoryClassDAO() {
@@ -99,7 +109,14 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 	}
 
 
+	/**
+	 * We give both DataSource producers the same bean name and
+	 * different profiles.  Then, for dependency injection, 
+	 * do a lookup: appContext.getBean("dataSource", DataSource.class)
+	 * @return
+	 */
 	@Bean(name = "dataSource")
+	@Profile("production")
 	public DataSource dataSource() {
 		SimpleDriverDataSource sdds = new SimpleDriverDataSource();
 		sdds.setUrl("jdbc:derby://localhost/LarkUDB");
@@ -109,41 +126,68 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 
 		return sdds;
 	}
-	
+
+	@Bean(name = "dataSource")
+	@Profile("development")
+	public DataSource dataSourceInMemory() {
+		SimpleDriverDataSource sdds = new SimpleDriverDataSource();
+		sdds.setUrl("jdbc:derby:memory:LarkUDB;create=true");
+		sdds.setDriverClass(org.apache.derby.jdbc.EmbeddedDriver.class);
+		sdds.setUsername("larku");
+		sdds.setPassword("larku");
+
+		return sdds;
+	}
 
 	@Bean
 	public JdbcTemplate jdbcTemplate() {
 		JdbcTemplate template = new JdbcTemplate();
-		template.setDataSource(dataSource());
+		DataSource ds = appContext.getBean("dataSource", DataSource.class);
+		template.setDataSource(ds);
 		
 		return template;
 	}
 
-	@Bean(name = "LarkUPU_SE")
+	@Bean //(name = "LarkUPU_SE")
 	public LocalContainerEntityManagerFactoryBean getLcemfg() {
 		LocalContainerEntityManagerFactoryBean lcemfg = new LocalContainerEntityManagerFactoryBean();
-		lcemfg.setDataSource(dataSource());
-		lcemfg.setPersistenceUnitName("LarkUPU_SE");
-
+		//We do a name look up here to get dataSource for the current profile
+		//so we can set the Unit name properly
+		//Note the the names *must* be the names of actual PersitenceUnits
+		//in the persistence.xml file
+		DataSource ds = appContext.getBean("dataSource", DataSource.class);
+		String pu = "LarkUPU_SE";
+		if(ds instanceof SimpleDriverDataSource) {
+			SimpleDriverDataSource sdds = (SimpleDriverDataSource)ds;
+			if(sdds.getDriver().getClass() == EmbeddedDriver.class) {
+				pu = "LarkUPU_SE_InMemory";
+			}
+		}
+		lcemfg.setDataSource(ds);
+		lcemfg.setPersistenceUnitName(pu);
+		
 		return lcemfg;
 	}
 
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
-		lsfb.setDataSource(dataSource());
+		DataSource ds = appContext.getBean("dataSource", DataSource.class);
+		lsfb.setDataSource(ds);
+		//lsfb.setDataSource(dataSource());
 		lsfb.setPackagesToScan("ttl.larku.domain");
 
 		Properties props = new Properties();
-		props.put("dialect", "org.hibernate.dialect.DerbyDialect");
+		props.put("dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
 		props.put("javax.persistence.validation.mode", "none");
 
 		lsfb.setHibernateProperties(props);
 
 		return lsfb;
 	}
+	
 
-	@Bean @Primary
+	@Bean
 	public JpaTransactionManager jpaTransactionManager() {
 		JpaTransactionManager jtm = new JpaTransactionManager();
 		jtm.setEntityManagerFactory(getLcemfg().getObject());
@@ -154,7 +198,9 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 	@Bean
 	public DataSourceTransactionManager dsTransactionManager() {
 		DataSourceTransactionManager tm = new DataSourceTransactionManager();
-		tm.setDataSource(dataSource());
+		DataSource ds = appContext.getBean("dataSource", DataSource.class);
+		//tm.setDataSource(dataSource());
+		tm.setDataSource(ds);
 
 		return tm;
 	}
@@ -169,7 +215,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 
 	// Set the transaction manager to be used,
 	// as, in <tx:annotation-driven transaction-manager="jpaTransactionManager"
-	// />
+	// 
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {
 		return jpaTransactionManager();

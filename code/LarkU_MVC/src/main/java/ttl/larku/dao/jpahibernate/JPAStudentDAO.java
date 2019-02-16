@@ -14,7 +14,7 @@ import ttl.larku.domain.Student;
 @Transactional
 public class JPAStudentDAO implements BaseDAO<Student> {
 
-	@PersistenceContext(unitName="LarkUPU_SE")
+	@PersistenceContext //(unitName="LarkUPU_SE")
 	private EntityManager entityManager;
 	
 	

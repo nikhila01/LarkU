@@ -19,13 +19,13 @@
 		<!-- Use this one when using a Database.  DB *must* be running before this app is deployed -->
 		<!--  <param-value>ttl.larku.jconfig.LarkUWithDBWebConfig</param-value> -->
 
-		<param-value>ttl.larku.jconfig.LarkUWebConfigProfile</param-value>
+		<param-value>ttl.larku.jconfig.LarkUMasterConfig</param-value>
 	</context-param>
 
 	<!-- For Profiles, uncomment this -->
 	<context-param>
 	    <param-name>spring.profiles.active</param-name>
-	    <param-value>production</param-value>
+	    <param-value>development</param-value>
 	</context-param>
 
 	<listener>

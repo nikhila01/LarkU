@@ -16,10 +16,14 @@ public class RegistrationApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		/*Make the Spring Container*/
-		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LarkUSEConfig.class);
-		AnnotationConfigApplicationContext context = 
-				new AnnotationConfigApplicationContext(LarkU_SE_DBConfig.class);
+		/* Make the Spring Container */
+		// AnnotationConfigApplicationContext context = new
+		// AnnotationConfigApplicationContext(LarkUSEConfig.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.getEnvironment().setActiveProfiles("production");
+		context.register(LarkU_SE_DBConfig.class);
+		context.refresh();
+
 		// ApplicationContext context = new
 		// ClassPathXmlApplicationContext("larkUSEContext.xml");
 

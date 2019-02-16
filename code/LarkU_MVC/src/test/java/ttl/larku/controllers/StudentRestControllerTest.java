@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ttl.larku.domain.Student;
 import ttl.larku.jconfig.LarkUServletConfig;
-import ttl.larku.jconfig.LarkUWebConfigProfile;
+import ttl.larku.jconfig.LarkUMasterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -63,7 +63,7 @@ import ttl.larku.jconfig.LarkUWebConfigProfile;
 //Java Config.  This needs profile either set to "production" for db
 //or "development" for in memory data
 @ContextHierarchy({
-		@ContextConfiguration(classes = { LarkUWebConfigProfile.class }),
+		@ContextConfiguration(classes = { LarkUMasterConfig.class }),
 		@ContextConfiguration(classes = { LarkUServletConfig.class }) 
 })
 /*-
@@ -75,7 +75,7 @@ import ttl.larku.jconfig.LarkUWebConfigProfile;
 
 @WebAppConfiguration
 @ActiveProfiles({ "development" })
-//@Sql(scripts = { "/ttl/larku/db/createDB.sql", "/ttl/larku/db/populateDB.sql" })
+@Sql(scripts = { "/ttl/larku/db/createDB.sql", "/ttl/larku/db/populateDB.sql" })
 public class StudentRestControllerTest {
 
 	// @Resource
