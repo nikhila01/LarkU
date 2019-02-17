@@ -5,11 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import ttl.larku.dao.BaseDAO;
 import ttl.larku.dao.inmemory.InMemoryClassDAO;
@@ -23,8 +28,12 @@ import ttl.larku.domain.ScheduledClass;
 import ttl.larku.domain.Student;
 
 @Configuration
-@Profile("development")
-public class LarkUTestDataConfig {
+//@ComponentScan(basePackages= {"ttl.larku.dao", "ttl.larku.service", "ttl.larku.domain", "ttl.larku.exceptions", "ttl.larku.controllers"})
+@ComponentScan(basePackages= {"ttl.larku.*"})
+@EnableJpaRepositories
+@EnableTransactionManagement
+@Profile("se")
+public class LarkU_SE_Config {
 
 	@Bean
 	public Student student1() {
@@ -196,12 +205,23 @@ public class LarkUTestDataConfig {
 		return new JPAClassDAO();
 	}
 
-	/*
 	@Bean
-	public LocalEntityManagerFactoryBean entityManagerFactory(@Value("${spring.profile.active}") String dt) {
+	public LocalEntityManagerFactoryBean entityManagerFactory() {
 		LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
 		factoryBean.setPersistenceUnitName("LarkUPU_SE_InMemory");
 		return factoryBean;
 	}
-	*/
+
+	/**
+	 * Need this in an SE environment.  Else you would have to commit/rollback
+	 * manually.
+	 * @return
+	 */
+	@Bean
+	public JpaTransactionManager transactionManager() {
+		JpaTransactionManager jtm = new JpaTransactionManager();
+		jtm.setEntityManagerFactory(entityManagerFactory().getObject());
+
+		return jtm;
+	}
 }

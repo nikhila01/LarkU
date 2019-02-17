@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,6 +34,23 @@ public class LastStopHandler extends ResponseEntityExceptionHandler {
 		List<String> errors = new ArrayList<>();
 		for (FieldError e : br.getFieldErrors()) {
 			errors.add(e.getField() + ": " + e.getDefaultMessage() + ", rejected value is " + e.getRejectedValue());
+		}
+		RestResult rr = new RestResult(errors);
+		
+		return ResponseEntity.badRequest().body(rr);
+
+	}
+
+	@Override
+	public ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, 
+			HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		List<String> errors = new ArrayList<>();
+		errors.add("Unsupported Media Type.  ");
+		errors.add("Supported Types are: ");
+		List<MediaType> supportedTypes = ex.getSupportedMediaTypes();
+		for (MediaType mt : supportedTypes) {
+			errors.add(mt.toString());
 		}
 		RestResult rr = new RestResult(errors);
 		return ResponseEntity.badRequest().body(rr);

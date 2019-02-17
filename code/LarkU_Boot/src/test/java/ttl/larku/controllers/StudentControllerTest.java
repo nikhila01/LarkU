@@ -14,7 +14,7 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.AbstractBindingResult;
@@ -31,6 +31,7 @@ import ttl.larku.service.StudentService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Sql(scripts = { "/ttl/larku/db/createDB.sql", "/ttl/larku/db/populateDB.sql" })
 public class StudentControllerTest {
 
 	@Resource(name = "courseController")

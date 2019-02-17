@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import ttl.larku.LarkU_SE_Config;
 import ttl.larku.domain.ScheduledClass;
 import ttl.larku.domain.Student;
 import ttl.larku.service.RegistrationService;
@@ -16,9 +17,10 @@ public class RegistrationApp {
 	 */
 	public static void main(String[] args) {
 		/*Make the Spring Container*/
-		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LarkUSEConfig.class);
-		AnnotationConfigApplicationContext context = 
-				new AnnotationConfigApplicationContext();
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.getEnvironment().setActiveProfiles("development", "se");
+		context.register(LarkU_SE_Config.class);
+		context.refresh();
 		// ApplicationContext context = new
 		// ClassPathXmlApplicationContext("larkUSEContext.xml");
 

@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,6 +17,7 @@ import ttl.larku.domain.ScheduledClass;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Sql(scripts = { "/ttl/larku/db/createDB.sql", "/ttl/larku/db/populateDB.sql" })
 public class RegistrationControllerTest {
 
 	@Resource(name="courseController")
