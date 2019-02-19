@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>LarkU_SpringBoot</name>
 	<description>LarkU for Spring Boot</description>
+	<packaging>war</packaging>
 
 	<properties>
 	</properties>

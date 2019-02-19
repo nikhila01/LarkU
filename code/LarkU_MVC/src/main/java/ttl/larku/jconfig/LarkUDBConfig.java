@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -149,7 +150,8 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 	}
 
 	@Bean //(name = "LarkUPU_SE")
-	public LocalContainerEntityManagerFactoryBean getLcemfg() {
+	@Primary
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean lcemfg = new LocalContainerEntityManagerFactoryBean();
 		//We do a name look up here to get dataSource for the current profile
 		//so we can set the Unit name properly
@@ -169,6 +171,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 		return lcemfg;
 	}
 
+	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
@@ -190,7 +193,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 	@Bean
 	public JpaTransactionManager jpaTransactionManager() {
 		JpaTransactionManager jtm = new JpaTransactionManager();
-		jtm.setEntityManagerFactory(getLcemfg().getObject());
+		jtm.setEntityManagerFactory(entityManagerFactory().getObject());
 
 		return jtm;
 	}
@@ -205,6 +208,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 		return tm;
 	}
 
+	
 	@Bean
 	public HibernateTransactionManager hibernateTransactionManager() {
 		HibernateTransactionManager jtm = new HibernateTransactionManager();
