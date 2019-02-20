@@ -41,7 +41,7 @@ public class StudentServiceTest {
 	private Student student2;
 	
 	@Resource
-	private StudentService studentService;
+	private StudentService ss;
 	
 	@Before
 	public void setup() {
@@ -54,43 +54,43 @@ public class StudentServiceTest {
 		class2 = new ScheduledClass(course2, startDate2, endDate2);
 		
 		//studentService = new StudentService();
-		studentService.clear();
+		ss.clear();
 	}
 	
 	@Test
 	public void testCreateStudent() {
-		Student newStudent = studentService.createStudent(name1);
+		Student newStudent = ss.createStudent(name1);
 		
-		Student result = studentService.getStudent(newStudent.getId());
+		Student result = ss.getStudent(newStudent.getId());
 		
 		assertEquals(name1, result.getName());
-		assertEquals(1, studentService.getAllStudents().size());
+		assertEquals(1, ss.getAllStudents().size());
 	}
 	
 	@Test
 	public void testDeleteStudent() {
-		Student student1 = studentService.createStudent(name1);
-		Student student2 = studentService.createStudent(name2);
+		Student student1 = ss.createStudent(name1);
+		Student student2 = ss.createStudent(name2);
 		
-		assertEquals(2, studentService.getAllStudents().size());
+		assertEquals(2, ss.getAllStudents().size());
 		
-		studentService.deleteStudent(student1.getId());
+		ss.deleteStudent(student1.getId());
 		
-		assertEquals(1, studentService.getAllStudents().size());
-		assertEquals(name2, studentService.getAllStudents().get(0).getName());
+		assertEquals(1, ss.getAllStudents().size());
+		assertEquals(name2, ss.getAllStudents().get(0).getName());
 	}
 	
 	@Test
 	public void testUpdateStudent() {
-		Student student1 = studentService.createStudent(name1);
+		Student student1 = ss.createStudent(name1);
 		
-		assertEquals(1, studentService.getAllStudents().size());
+		assertEquals(1, ss.getAllStudents().size());
 		
 		student1.setName(name2);
-		studentService.updateStudent(student1);
+		ss.updateStudent(student1);
 		
-		assertEquals(1, studentService.getAllStudents().size());
-		assertEquals(name2, studentService.getAllStudents().get(0).getName());
+		assertEquals(1, ss.getAllStudents().size());
+		assertEquals(name2, ss.getAllStudents().get(0).getName());
 	}
 
 }

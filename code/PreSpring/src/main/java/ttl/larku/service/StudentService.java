@@ -1,17 +1,25 @@
 package ttl.larku.service;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import ttl.larku.dao.inmemory.StudentDAO;
+import ttl.larku.dao.BaseDAO;
+import ttl.larku.dao.MyFactory;
+import ttl.larku.dao.inmemory.InMemoryStudentDAO;
+import ttl.larku.dao.jpa.JpaStudentDAO;
 import ttl.larku.domain.Student;
 import ttl.larku.domain.Student.Status;
 
 public class StudentService {
+	
+	//List<String> stuff = new ArrayList<>();
+	List<String> stuff = new LinkedList<>();
 
-	private StudentDAO studentDAO;
+	//private InMemoryStudentDAO studentDAO;
+	private BaseDAO<Student> studentDAO;
 	
 	public StudentService() {
-		studentDAO = new StudentDAO();
+		//studentDAO = new InMemoryStudentDAO();
 	}
 	
 	public Student createStudent(String name, String phoneNumber, Status status) {
@@ -46,16 +54,11 @@ public class StudentService {
 		return studentDAO.getAll();
 	}
 	
-	public StudentDAO getStudentDAO() {
+	public BaseDAO<Student> getStudentDAO() {
 		return studentDAO;
 	}
 
-	public void setStudentDAO(StudentDAO studentDAO) {
+	public void setStudentDAO(BaseDAO<Student> studentDAO) {
 		this.studentDAO = studentDAO;
-	}
-
-	public void clear() {
-		studentDAO.deleteStore();
-		studentDAO.createStore();
 	}
 }

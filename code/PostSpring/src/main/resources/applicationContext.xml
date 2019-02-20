@@ -7,17 +7,23 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 		
-		<context:component-scan base-package="ttl.larku"/>
-
-		<bean id="studentDAO" class="ttl.larku.dao.inmemory.StudentDAO" />
+		<context:component-scan base-package="ttl.larku.service, ttl.larku.dao.*"/>
 		
+		<!-- 
 		<bean id="studentService" class="ttl.larku.service.StudentService">
 			<property name="studentDAO" ref="studentDAO" />
 		</bean> 
+		-->
+		
+		
+		<bean id="studentDAO1" class="ttl.larku.dao.inmemory.StudentDAO" />
+
+		<bean id="studentDAO2" class="ttl.larku.dao.jpahibernate.JpaStudentDAO" />
+		
+
+		<bean id="courseService" class="ttl.larku.service.CourseService" autowire="byType">
+		</bean>
 		
 		<bean id="courseDAO" class="ttl.larku.dao.inmemory.CourseDAO" />
-		<bean id="courseService" class="ttl.larku.service.CourseService">
-			<property name="studentDAO" ref="courseDAO"/>
-		</bean>
 
 </beans>

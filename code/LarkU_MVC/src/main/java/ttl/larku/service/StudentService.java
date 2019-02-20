@@ -2,8 +2,7 @@ package ttl.larku.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +13,8 @@ import ttl.larku.domain.Student;
 @Transactional
 public class StudentService {
 
-	@Resource(name="studentDAO")
+	//@Resource(name="studentDAO")
+	@Autowired
 	private BaseDAO<Student> studentDAO;
 	
 	public Student createStudent(String name) {

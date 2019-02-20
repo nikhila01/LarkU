@@ -1,4 +1,4 @@
-package ttl.larku.dao.inmemory;
+package ttl.larku.dao.jpahibernate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +8,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Repository;
 
+import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Course;
 
-@Repository
-public class CourseDAO {
+public class JpaCourseDAO implements BaseDAO<Course>{
 
 	private Map<Integer, Course> courses = new HashMap<Integer, Course>();
 	private static AtomicInteger nextId = new AtomicInteger(20);
 	
+	private String from;
+	public JpaCourseDAO(String from) {
+		this.from = from + ": ";
+	}
+	
+	public JpaCourseDAO() {
+		this("LarkUConfig");
+	}
+
 	public void update(Course updateObject) {
 		if(courses.containsKey(updateObject.getId())) {
 			courses.put(updateObject.getId(), updateObject);
@@ -30,6 +39,7 @@ public class CourseDAO {
 		//Create a new Id
 		int newId = nextId.getAndIncrement();
 		newObject.setId(newId);
+		newObject.setCode(from + newObject.getCode());
 		courses.put(newId, newObject);
 		
 		return newObject;

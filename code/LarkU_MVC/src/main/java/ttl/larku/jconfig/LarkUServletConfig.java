@@ -14,6 +14,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -21,7 +22,8 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @EnableWebMvc  // for <mvc:annotation-config/>
 @ComponentScan(basePackages={"ttl.larku.controllers"})
 @Profile({"development", "production"})
-public class LarkUServletConfig extends WebMvcConfigurerAdapter{
+//public class LarkUServletConfig extends WebMvcConfigurerAdapter{
+public class LarkUServletConfig implements WebMvcConfigurer {
 
 	@Bean 
 	public ResourceBundleMessageSource messageSource() {

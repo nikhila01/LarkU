@@ -4,16 +4,24 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ttl.larku.dao.inmemory.CourseDAO;
+import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Course;
 
 @Service
 public class CourseService {
 
-	@Resource
-	private CourseDAO courseDAO;
+	@Resource(name="courseDAO")
+	private BaseDAO<Course> courseDAO;
+	
+	public CourseService() {
+		
+	}
+	public CourseService(BaseDAO<Course> courseDAO) {
+		this.courseDAO = courseDAO;
+	}
 	
 	public Course createCourse(String code, String title) {
 		Course course = new Course(code, title);
@@ -57,11 +65,11 @@ public class CourseService {
 		return courseDAO.getAll();
 	}
 	
-	public CourseDAO getCourseDAO() {
+	public BaseDAO<Course> getCourseDAO() {
 		return courseDAO;
 	}
 
-	public void setCourseDAO(CourseDAO courseDAO) {
+	public void setCourseDAO(BaseDAO<Course> courseDAO) {
 		this.courseDAO = courseDAO;
 	}
 

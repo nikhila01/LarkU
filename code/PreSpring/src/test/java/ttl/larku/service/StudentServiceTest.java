@@ -21,7 +21,6 @@ public class StudentServiceTest {
 	@Before
 	public void setup() {
 		studentService = new StudentService();
-		studentService.clear();
 	}
 	
 	@Test

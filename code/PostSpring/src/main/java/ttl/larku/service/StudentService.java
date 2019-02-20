@@ -2,16 +2,26 @@ package ttl.larku.service;
 
 import java.util.List;
 
-import ttl.larku.dao.inmemory.StudentDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
+
+import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Student;
 import ttl.larku.domain.Student.Status;
 
 public class StudentService {
 
-	private StudentDAO studentDAO;
+	private BaseDAO<Student> studentDAO;
+	
+	
+	@Autowired
+	private ApplicationContext context;
 	
 	public StudentService() {
 	}
+	
+	private CourseService cs;
 	
 	public Student createStudent(String name, String phoneNumber, Status status) {
 		Student student = new Student(name, phoneNumber, status);
@@ -45,16 +55,24 @@ public class StudentService {
 		return studentDAO.getAll();
 	}
 	
-	public StudentDAO getStudentDAO() {
+	public BaseDAO<Student> getStudentDAO() {
 		return studentDAO;
 	}
 
-	public void setStudentDAO(StudentDAO studentDAO) {
+	public void setStudentDAO(BaseDAO<Student> studentDAO) {
 		this.studentDAO = studentDAO;
 	}
 
 	public void clear() {
 		studentDAO.deleteStore();
 		studentDAO.createStore();
+	}
+
+	public CourseService getCs() {
+		return cs;
+	}
+
+	public void setCs(CourseService cs) {
+		this.cs = cs;
 	}
 }
