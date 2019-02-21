@@ -27,6 +27,10 @@ public class LastStopHandler extends ResponseEntityExceptionHandler {
 		return rr;
 	}
 
+	/**
+	 * Used to deal with requests which do not pass the @Valid test.
+	 * 
+	 */
 	@Override
 	public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
@@ -41,17 +45,25 @@ public class LastStopHandler extends ResponseEntityExceptionHandler {
 
 	}
 
+	/**
+	 * Try sending an Accept of application/json, and change the controller
+	 * to only produce json.  That will work.  If the client wants a representation
+	 * that is not xml or json, this will fail miserably because it will not be
+	 * able to convert the RestResult.  It will get called twice, and then the client
+	 * will get an empty 406.
+	 */
 	@Override
 	public ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, 
 			HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 		List<String> errors = new ArrayList<>();
-		errors.add("Unsupported Media Type.  ");
+		errors.add("Unsupported Media Type - " + request.getHeader(HttpHeaders.ACCEPT));
 		errors.add("Supported Types are: ");
 		List<MediaType> supportedTypes = ex.getSupportedMediaTypes();
 		for (MediaType mt : supportedTypes) {
 			errors.add(mt.toString());
 		}
+		
 		RestResult rr = new RestResult(errors);
 		return ResponseEntity.badRequest().body(rr);
 	}

@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +53,9 @@ public class StudentRestyController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, 
-			produces = { "application/xml", "application/json", "application/csv" })
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET,
+			//produces = { "application/xml", "application/json", "application/csv" })
+			produces = { "application/xml" })
 	public @ResponseBody Object getStudentXJWithPathVariable(@PathVariable("id") int id) {
 		Student student = regService.getStudentService().getStudent(id);
 		if (student == null) {
@@ -78,8 +79,9 @@ public class StudentRestyController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { "application/xml", "application/json" }, produces = {
 			"application/xml", "application/json" })
-	public @ResponseBody ResponseEntity<?> addStudent(@Valid @RequestBody Student student, 
-			UriComponentsBuilder ucb, Errors errors) {
+	public @ResponseBody ResponseEntity<?> addStudent(@RequestBody Student student, 
+			UriComponentsBuilder ucb) {
+		
 		Student student2 = regService.getStudentService().createStudent(student);
 
 		UriComponents uriComponents = ucb.path("/student/{id}").buildAndExpand(student2.getId());

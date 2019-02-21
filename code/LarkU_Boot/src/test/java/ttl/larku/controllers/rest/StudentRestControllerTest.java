@@ -69,7 +69,9 @@ public class StudentRestControllerTest {
 
 		MockHttpServletRequestBuilder request = get("/adminrest/student/{id}", goodStudentId);
 
-		List<ResultMatcher> matchers = Arrays.asList(status().isOk(), content().contentType(accept),
+		List<ResultMatcher> matchers = Arrays
+				.asList(status().isOk(), 
+						content().contentType(accept),
 				jsonPath("$.name").value("Manoj"));
 
 		/*

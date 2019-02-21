@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,7 +32,7 @@ public class ScheduledClass {
 	private int id;
 	
 	@XmlTransient
-	//@JsonIgnore - either set here or on the properties
+	@JsonProperty(access=Access.READ_ONLY)
 	@ManyToMany(mappedBy="classes", fetch=FetchType.EAGER)
 	private List<Student> students = new ArrayList<Student>();
 	
@@ -66,12 +68,12 @@ public class ScheduledClass {
 		this.id = id;
 	}
 	
-	@JsonIgnore
+	//@JsonIgnore
 	public List<Student> getStudents() {
 		return students;
 	}
 	
-	@JsonIgnore
+	//@JsonIgnore
 	public void setStudents(List<Student> students) {
 		this.students = students;
 	}

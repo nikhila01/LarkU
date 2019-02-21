@@ -27,14 +27,15 @@ import ttl.larku.service.RegistrationService;
 @RunWith(MockitoJUnitRunner.class)
 public class CourseControllerUnitTest {
 
+	@InjectMocks
+	private CourseController courseController;
+
 	@Mock
 	private RegistrationService regService;
 
 	@Mock
 	private CourseService courseService;
 
-	@InjectMocks
-	private CourseController courseController;
 
 	private String name1 = "Bloke";
 	private String name2 = "Blokess";

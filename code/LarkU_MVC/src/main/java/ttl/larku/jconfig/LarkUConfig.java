@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 import ttl.larku.dao.BaseDAO;
@@ -16,6 +17,7 @@ import ttl.larku.domain.ScheduledClass;
 import ttl.larku.domain.Student;
 import ttl.larku.service.ClassService;
 import ttl.larku.service.CourseService;
+import ttl.larku.service.MyClass;
 import ttl.larku.service.RegistrationService;
 import ttl.larku.service.StudentService;
 
@@ -60,6 +62,12 @@ public class LarkUConfig {
 		service.setClassDAO(classDAO);
 		service.setCourseService(courseService());
 		return service;
+	}
+	
+	@Bean
+	@Scope("prototype")
+	public MyClass myClass() {
+		return new MyClass();
 	}
 	
 	@Bean

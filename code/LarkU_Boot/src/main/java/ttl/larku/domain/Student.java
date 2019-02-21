@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,11 +42,12 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	// @Length(min=4, message= "{student.name.message}")
+	@Length(min=4, message= "{student.name.message}")
+	@NotNull
 	private String name;
 
 	@Column(name = "PHONENUMBER")
-	// @Pattern(regexp="[2-9]{3} [2-9]{3}-[0-9]{4}")
+	@Pattern(regexp="[2-9]{3} [2-9]{3}-[0-9]{4}")
 	private String phoneNumber;
 
 	@Enumerated(EnumType.STRING)
@@ -64,7 +68,7 @@ public class Student {
 	private static int nextId = 0;
 
 	public Student() {
-		this("Unknown");
+		this(null);
 	}
 
 	public Student(String name) {

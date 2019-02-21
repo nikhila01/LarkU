@@ -2,6 +2,7 @@ package ttl.larku.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import ttl.larku.dao.BaseDAO;
@@ -12,6 +13,9 @@ public class CourseService {
 
 	private static BaseDAO<Course> courseDAO;
 	
+	@Autowired
+	private MyClass myClass;
+
 	public Course createCourse(String code, String title) {
 		Course course = new Course(code, title);
 		course = courseDAO.create(course);
@@ -47,6 +51,7 @@ public class CourseService {
 	}
 	
 	public Course getCourse(int id) {
+		MyClass m = myClass;
 		return courseDAO.get(id);
 	}
 	
