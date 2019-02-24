@@ -118,7 +118,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 	 */
 	@Bean(name = "dataSource")
 	@Profile("production")
-	public DataSource dataSource() {
+	public DataSource dataSourceReal() {
 		SimpleDriverDataSource sdds = new SimpleDriverDataSource();
 		sdds.setUrl("jdbc:derby://localhost/LarkUDB");
 		sdds.setDriverClass(org.apache.derby.jdbc.ClientDriver.class);
@@ -139,6 +139,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 
 		return sdds;
 	}
+	
 
 	@Bean
 	public JdbcTemplate jdbcTemplate() {
@@ -149,6 +150,9 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 		return template;
 	}
 
+	@Autowired
+	private DataSource dataSource;
+	
 	@Bean //(name = "LarkUPU_SE")
 	@Primary
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -158,6 +162,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 		//Note the the names *must* be the names of actual PersitenceUnits
 		//in the persistence.xml file
 		DataSource ds = appContext.getBean("dataSource", DataSource.class);
+		//DataSource ds = dataSource();
 		String pu = "LarkUPU_SE";
 		if(ds instanceof SimpleDriverDataSource) {
 			SimpleDriverDataSource sdds = (SimpleDriverDataSource)ds;
@@ -165,6 +170,7 @@ public class LarkUDBConfig implements TransactionManagementConfigurer {
 				pu = "LarkUPU_SE_InMemory";
 			}
 		}
+		//lcemfg.setDataSource(ds);
 		lcemfg.setDataSource(ds);
 		lcemfg.setPersistenceUnitName(pu);
 		

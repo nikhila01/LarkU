@@ -2,20 +2,19 @@ package ttl.larku.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
-import ttl.larku.dao.inmemory.CourseDAO;
+import ttl.larku.dao.BaseDAO;
+import ttl.larku.dao.MyFactory;
+import ttl.larku.dao.inmemory.InMemoryCourseDAO;
 import ttl.larku.domain.Course;
 
 @Service
 public class CourseService {
 
-	private CourseDAO courseDAO;
+	private BaseDAO<Course> courseDAO;
 	
 	public CourseService() {
-		this.courseDAO = new CourseDAO();
 	}
 	
 	public Course createCourse(String code, String title) {
@@ -60,16 +59,11 @@ public class CourseService {
 		return courseDAO.getAll();
 	}
 	
-	public CourseDAO getCourseDAO() {
+	public BaseDAO<Course> getCourseDAO() {
 		return courseDAO;
 	}
 
-	public void setCourseDAO(CourseDAO courseDAO) {
+	public void setCourseDAO(BaseDAO<Course> courseDAO) {
 		this.courseDAO = courseDAO;
-	}
-
-	public void clear() {
-		courseDAO.deleteStore();
-		courseDAO.createStore();
 	}
 }

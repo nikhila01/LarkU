@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Student;
 
-public class StudentDAO {
+public class InMemoryStudentDAO implements BaseDAO<Student>{
 
-	private static Map<Integer, Student> students = new HashMap<Integer, Student>();
+	private Map<Integer, Student> students = new HashMap<Integer, Student>();
 	private static int nextId = 0;
 	
 	public void update(Student updateObject) {

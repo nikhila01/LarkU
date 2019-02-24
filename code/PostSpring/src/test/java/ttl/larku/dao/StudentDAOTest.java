@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ttl.larku.dao.inmemory.StudentDAO;
+import ttl.larku.dao.inmemory.InMemoryStudentDAO;
 import ttl.larku.domain.Student;
 import ttl.larku.domain.Student.Status;
 
@@ -21,11 +21,11 @@ public class StudentDAOTest {
 	private Student student1;
 	private Student student2;
 	
-	private StudentDAO dao;
+	private InMemoryStudentDAO dao;
 	
 	@Before
 	public void setup() {
-		dao = new StudentDAO();
+		dao = new InMemoryStudentDAO();
 		dao.deleteStore();
 		dao.createStore();
 		

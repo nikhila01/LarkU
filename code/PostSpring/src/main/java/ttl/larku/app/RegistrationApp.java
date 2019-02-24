@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import ttl.larku.config.LarkUConfig;
+import ttl.larku.config.TwoConfig;
 import ttl.larku.domain.Course;
 import ttl.larku.domain.Student;
 import ttl.larku.service.CourseService;
@@ -15,9 +16,20 @@ public class RegistrationApp {
 	
 	public static void main(String[] args) {
 		//ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-		ApplicationContext appContext = new AnnotationConfigApplicationContext(LarkUConfig.class);
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(LarkUConfig.class);
+		/*
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext();
+		//appContext.getEnvironment().setActiveProfiles("dev");
+		appContext.register(LarkUConfig.class);
+		appContext.refresh();
+		*/
+						
+
+		//ApplicationContext appContext = new AnnotationConfigApplicationContext(LarkUConfig.class, TwoConfig.class); 
 
 		StudentService ss = appContext.getBean("studentService", StudentService.class);
+
+		StudentService ss2 = appContext.getBean("studentService", StudentService.class);
 		initStudents(ss);
 
 		List<Student> students = ss.getAllStudents();

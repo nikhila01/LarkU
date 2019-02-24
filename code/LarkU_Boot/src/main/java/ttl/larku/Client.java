@@ -38,7 +38,8 @@ public class Client {
 	
 	public static String getOneStudentCsv() throws IOException {
 		String root = "http://localhost:8080/adminrest/student/1";
-		RestTemplate rt = new RestTemplateBuilder().errorHandler(new TemplateErrorHandler()).build();
+		RestTemplate rt = new RestTemplateBuilder()
+				.errorHandler(new TemplateErrorHandler()).build();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
